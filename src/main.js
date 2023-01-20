@@ -1,4 +1,35 @@
+function getLocalStorageValues(){
 
+  if (typeof(Storage) !== "undefined") {  
+  const localStoreStartNo = Number(localStorage.getItem('startno'));
+  const localStoreEndNo = Number(localStorage.getItem('endno'));
+  const localStoreCostPerTicket = localStorage.getItem('costperticket');
+  const localStoreTotalCash = localStorage.getItem('totalcash');
+  const localStoreTotalUPI = localStorage.getItem('totalupi');
+  const localStoreTotalCard = localStorage.getItem('totalcard');
+  const localStoreCashCount = localStorage.getItem('cashcount');
+  const localStoreUPICount = localStorage.getItem('upicount');
+  const localStoreCardCount = localStorage.getItem('cardcount');
+  const localStoreTotalCostOfSoldTickets = localStorage.getItem('totalcostofsoldtickets');
+  const localStoreTotalTicketsSold = localStorage.getItem('totalticketssold');
+  const localStoreTotalNoOfTickets = localStorage.getItem('totalnooftickets');
+
+  document.getElementById('startNumber').value = localStoreStartNo;
+  document.getElementById('endNumber').value = localStoreEndNo;
+   $('#TotalNumberOfTickets').html(localStoreTotalNoOfTickets);
+  $('#costTicket').html(localStoreCostPerTicket);
+  $('#TotalTicketsSold').html(localStoreTotalTicketsSold);
+  $('#TotalCostOfSoldTickets').html(localStoreTotalCostOfSoldTickets);
+  $('#CashTotal').html(localStoreCashCount);
+  $('#TotalCash1').html(localStoreTotalCash);
+  $('#UPITotal').html(localStoreUPICount);
+  $('#TotalUPI1').html(localStoreTotalUPI);
+  $('#CardTotal').html(localStoreCardCount);
+  $('#TotalCard1').html(localStoreTotalCard);
+
+  }
+
+}
 $(document).ready(function(){
 
   let cashCount = 0;
@@ -11,6 +42,62 @@ $(document).ready(function(){
   let TotalNumberOfTickets =0;
   let TotalCostOfSoldTickets = 0;
   //let lastEndNo = 0;
+
+
+
+let saveToLocalStorage = () =>{
+  if (typeof(Storage) !== "undefined") { 
+    localStorage.setItem('startno',Number(document.getElementById('startNumber').value));
+    localStorage.setItem('endno',Number(document.getElementById('endNumber').value));
+    localStorage.setItem('costperticket',Number(document.getElementById('costTicket').value));
+   
+    localStorage.setItem('totalcash',TotalCashAmt);
+    localStorage.setItem('totalupi',TotalUPIAmt);
+    localStorage.setItem('totalcard',TotalCardAmt);
+    localStorage.setItem('cashcount',cashCount);
+    localStorage.setItem('upicount',upiCount);
+    localStorage.setItem('cardcount',cardCount);
+    localStorage.setItem('totalcostofsoldtickets',TotalCostOfSoldTickets);
+    localStorage.setItem('totalticketssold',TotalNumberOfTickets);
+    localStorage.setItem('totalnooftickets',TotalNumberOfTickets);
+
+
+
+  }
+}
+
+let clearLocalStorage =()=>{
+  localStorage.clear();
+  initializeAllDisplayValues1();
+}
+
+function initializeAllDisplayValues1() {
+
+  result = 0; 
+  cashCount = 0;
+  TotalTicketsSold =0;
+  upiCount = 0;
+  cardCount = 0;
+  TotalCashAmt = 0;
+  TotalUPIAmt = 0;
+  TotalCardAmt=0;
+  TotalCostOfSoldTickets = 0;
+  startNo = 0;
+
+  $('#startNumber').html(0);
+  $('#endNumber').html(0);
+  $('#TotalNumberOfTickets').html(0);
+  $('#TotalTicketsSold').html(0);
+  $('#TotalCostOfSoldTickets').html(0);
+  $('#CashTotal').html(0);
+  $('#TotalCash1').html(0);
+  $('#UPITotal').html(0);
+  $('#TotalUPI1').html(0);
+  $('#CardTotal').html(0);
+  $('#TotalCard1').html(0);
+
+  }
+
   function initializeAllDisplayValues() {
 
     result = 0; 
@@ -21,8 +108,8 @@ $(document).ready(function(){
     TotalCashAmt = 0;
     TotalUPIAmt = 0;
     TotalCardAmt=0;
-
     TotalCostOfSoldTickets = 0;
+
     $('#TotalTicketsSold').html(0);
     $('#TotalCostOfSoldTickets').html(0);
     $('#CashTotal').html(0);
@@ -105,6 +192,13 @@ $('#endNumber').on('input', function(){
  });
 
 
+ $('#btnClear').click(function(){
+  if (typeof(Storage) !== "undefined") { 
+  clearLocalStorage();
+  }
+});
+
+
 $('#btnAddCash').click(function(){
    
       if (TotalTicketsSold<TotalNumberOfTickets){
@@ -122,6 +216,9 @@ $('#btnAddCash').click(function(){
 
         TotalCostOfSoldTickets = TotalTicketsSold * $('#costTicket').val();
         $('#TotalCostOfSoldTickets').html(TotalCostOfSoldTickets);
+
+        saveToLocalStorage();
+
       }
   });
   
@@ -144,6 +241,8 @@ $('#btnAddCash').click(function(){
          
           TotalCostOfSoldTickets = TotalTicketsSold * $('#costTicket').val();
          $('#TotalCostOfSoldTickets').html(TotalCostOfSoldTickets);
+
+         saveToLocalStorage();
     });
 
   
@@ -162,7 +261,7 @@ $('#btnAddUPI').click(function(){
 
         TotalCostOfSoldTickets = TotalTicketsSold * $('#costTicket').val();
         $('#TotalCostOfSoldTickets').html(TotalCostOfSoldTickets);
-
+        saveToLocalStorage();
       }
 });
 
@@ -184,6 +283,7 @@ $('#btnAddUPI').click(function(){
 
                 TotalCostOfSoldTickets = TotalTicketsSold * $('#costTicket').val();
                 $('#TotalCostOfSoldTickets').html(TotalCostOfSoldTickets);
+                saveToLocalStorage();
      });
 
   
@@ -202,6 +302,7 @@ $('#btnAddCard').click(function(){
         
         TotalCostOfSoldTickets = TotalTicketsSold * $('#costTicket').val();
         $('#TotalCostOfSoldTickets').html(TotalCostOfSoldTickets);
+        saveToLocalStorage();
       }
   });
 
@@ -221,6 +322,7 @@ $('#btnAddCard').click(function(){
         $('#TotalCard1').html(TotalCardAmt);
         TotalCostOfSoldTickets = TotalTicketsSold * $('#costTicket').val();
         $('#TotalCostOfSoldTickets').html(TotalCostOfSoldTickets);
+        saveToLocalStorage();
   });
 
 }); //document Ready function ends here
