@@ -1,18 +1,44 @@
+let cashCount = 0;
+let TotalTicketsSold =0;
+let upiCount = 0;
+let cardCount = 0;
+let TotalCashAmt = 0;
+let TotalUPIAmt = 0;
+let TotalCardAmt=0;
+let TotalNumberOfTickets =0;
+let TotalCostOfSoldTickets = 0;
+let startNo = 0;
+let endNo = 0;
+let costperticket = 0;
+
+
 function getLocalStorageValues(){
 
   if (typeof(Storage) !== "undefined") {  
   const localStoreStartNo = Number(localStorage.getItem('startno'));
+  startNo = localStoreStartNo;
   const localStoreEndNo = Number(localStorage.getItem('endno'));
-  const localStoreCostPerTicket = localStorage.getItem('costperticket');
-  const localStoreTotalCash = localStorage.getItem('totalcash');
-  const localStoreTotalUPI = localStorage.getItem('totalupi');
-  const localStoreTotalCard = localStorage.getItem('totalcard');
-  const localStoreCashCount = localStorage.getItem('cashcount');
-  const localStoreUPICount = localStorage.getItem('upicount');
-  const localStoreCardCount = localStorage.getItem('cardcount');
-  const localStoreTotalCostOfSoldTickets = localStorage.getItem('totalcostofsoldtickets');
-  const localStoreTotalTicketsSold = localStorage.getItem('totalticketssold');
-  const localStoreTotalNoOfTickets = localStorage.getItem('totalnooftickets');
+  endNo = localStoreEndNo;
+  const localStoreCostPerTicket = Number(localStorage.getItem('costperticket'));
+  costperticket = localStoreCostPerTicket;
+  const localStoreTotalCash = Number(localStorage.getItem('totalcash'));
+  TotalCashAmt = localStoreTotalCash;
+  const localStoreTotalUPI = Number(localStorage.getItem('totalupi'));
+  TotalUPIAmt = localStoreTotalUPI;
+  const localStoreTotalCard = Number(localStorage.getItem('totalcard'));
+  TotalCardAmt = localStoreTotalCard;
+  const localStoreCashCount = Number(localStorage.getItem('cashcount'));
+  cashCount = localStoreCashCount;
+  const localStoreUPICount = Number(localStorage.getItem('upicount'));
+  upiCount = localStoreUPICount;
+  const localStoreCardCount = Number(localStorage.getItem('cardcount'));
+  cardCount = localStoreCardCount;
+  const localStoreTotalCostOfSoldTickets = Number(localStorage.getItem('totalcostofsoldtickets'));
+  TotalCostOfSoldTickets = localStoreTotalCostOfSoldTickets;
+  const localStoreTotalTicketsSold = Number(localStorage.getItem('totalticketssold'));
+  TotalTicketsSold = localStoreTotalTicketsSold;
+  const localStoreTotalNoOfTickets = Number(localStorage.getItem('totalnooftickets'));
+  TotalNumberOfTickets = localStoreTotalNoOfTickets;
 
   document.getElementById('startNumber').value = localStoreStartNo;
   document.getElementById('endNumber').value = localStoreEndNo;
@@ -27,23 +53,12 @@ function getLocalStorageValues(){
   $('#CardTotal').html(localStoreCardCount);
   $('#TotalCard1').html(localStoreTotalCard);
 
+
+
   }
 
 }
 $(document).ready(function(){
-
-  let cashCount = 0;
-  let TotalTicketsSold =0;
-  let upiCount = 0;
-  let cardCount = 0;
-  let TotalCashAmt = 0;
-  let TotalUPIAmt = 0;
-  let TotalCardAmt=0;
-  let TotalNumberOfTickets =0;
-  let TotalCostOfSoldTickets = 0;
-  //let lastEndNo = 0;
-
-
 
 let saveToLocalStorage = () =>{
   if (typeof(Storage) !== "undefined") { 
@@ -58,22 +73,16 @@ let saveToLocalStorage = () =>{
     localStorage.setItem('upicount',upiCount);
     localStorage.setItem('cardcount',cardCount);
     localStorage.setItem('totalcostofsoldtickets',TotalCostOfSoldTickets);
-    localStorage.setItem('totalticketssold',TotalNumberOfTickets);
+    localStorage.setItem('totalticketssold',TotalTicketsSold);
     localStorage.setItem('totalnooftickets',TotalNumberOfTickets);
-
-
-
   }
 }
 
-let clearLocalStorage =()=>{
-  localStorage.clear();
-  initializeAllDisplayValues1();
-}
+
 
 function initializeAllDisplayValues1() {
 
-  result = 0; 
+ 
   cashCount = 0;
   TotalTicketsSold =0;
   upiCount = 0;
@@ -83,6 +92,8 @@ function initializeAllDisplayValues1() {
   TotalCardAmt=0;
   TotalCostOfSoldTickets = 0;
   startNo = 0;
+  endNo = 0;
+
 
   $('#startNumber').html(0);
   $('#endNumber').html(0);
@@ -97,10 +108,13 @@ function initializeAllDisplayValues1() {
   $('#TotalCard1').html(0);
 
   }
-
+  let clearLocalStorage =()=>{
+    localStorage.clear();
+    initializeAllDisplayValues1();
+  }
   function initializeAllDisplayValues() {
 
-    result = 0; 
+
     cashCount = 0;
     TotalTicketsSold =0;
     upiCount = 0;
@@ -123,23 +137,28 @@ function initializeAllDisplayValues1() {
 
 $('#startNumber').on('input', function(){
  // alert('lost focus triggered!');
-  var startNo=$('#startNumber').val();
-  if (startNo<0) {
+ startNo=$('#startNumber').val();
+ endNo =$('#endNumber').val();
+
+  if ((startNo<0) || (startNo > endNo)) {
     startNo = 0;
   }
 
   if (startNo != $('#startNumber').val()) {
     initializeAllDisplayValues();
   }
+  if (startNo !=0){
   document.getElementById('startNumber').value = startNo;
+  }
 
   
  // document.getElementById('endNumber').value = startNo;
 });
 
 $('#endNumber').on('input', function(){
-   var endNo=$('#endNumber').val();
-   if (document.getElementById('startNumber').value =="" || $('#startNumber').val()==0){
+    startNo=$('#startNumber').val();
+    endNo=$('#endNumber').val();
+   if (startNo=="" || startNo==0){
     $('#startNumber').focus();
     endNo = 0;
    }
@@ -147,11 +166,14 @@ $('#endNumber').on('input', function(){
     endNo = 0;
   }
 
-  if (endNo != $('#endNumber').val()) {
+  if ((endNo != $('#endNumber').val())||($('#endNumber').val() < startNo)) {
+    endNo = 0;
     initializeAllDisplayValues();
   }
 
+  if (endNo !=0){
   document.getElementById('endNumber').value = endNo;
+  }
   //lastEndNo = endNo;
  });
 
@@ -160,8 +182,8 @@ $('#endNumber').on('input', function(){
 
  $("#endNumber").focusout(function(){
   
-    var endNo = document.getElementById('endNumber').value;
-    var startNo = document.getElementById('startNumber').value;
+     endNo = document.getElementById('endNumber').value;
+     startNo = document.getElementById('startNumber').value;
     var result = 0;
     result = endNo - startNo + 1;
     
@@ -200,8 +222,14 @@ $('#endNumber').on('input', function(){
 
 
 $('#btnAddCash').click(function(){
-   
+      console.log (TotalTicketsSold);
+      console.log (TotalNumberOfTickets);
+     
+      console.log (Number.isInteger(TotalTicketsSold));
+      console.log (Number.isInteger(TotalNumberOfTickets));
       if (TotalTicketsSold<TotalNumberOfTickets){
+        // console.log (TotalTicketsSold);
+      console.log (cashCount);
         cashCount++;
         $('#CashTotal').html(cashCount);
         if (TotalTicketsSold >0) {
