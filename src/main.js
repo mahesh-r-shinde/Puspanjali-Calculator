@@ -222,14 +222,14 @@ $('#endNumber').on('input', function(){
 
 
 $('#btnAddCash').click(function(){
-      console.log (TotalTicketsSold);
-      console.log (TotalNumberOfTickets);
+      // console.log (TotalTicketsSold);
+      // console.log (TotalNumberOfTickets);
      
-      console.log (Number.isInteger(TotalTicketsSold));
-      console.log (Number.isInteger(TotalNumberOfTickets));
+      // console.log (Number.isInteger(TotalTicketsSold));
+      // console.log (Number.isInteger(TotalNumberOfTickets));
       if (TotalTicketsSold<TotalNumberOfTickets){
         // console.log (TotalTicketsSold);
-      console.log (cashCount);
+      // console.log (cashCount);
         cashCount++;
         $('#CashTotal').html(cashCount);
         if (TotalTicketsSold >0) {
